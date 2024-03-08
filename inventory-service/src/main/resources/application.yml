@@ -2,16 +2,15 @@ server:
   port: 8092
 
 spring:
-  spring:
-    kafka:
-      bootstrap-servers: ${KAFKA_BROKER:localhost:9092}
-      topic:
-          orchestrator: orchestrator
-          inventory-validation-sucess: inventory-sucess
-          inventory-validation-fail: inventory-fail
-      consumer:
-        group_id: orchestrator-group
-        auto-offset-reset: latest
+  kafka:
+    bootstrap-servers: ${KAFKA_BROKER:localhost:9092}
+    topic:
+      orchestrator: orchestrator
+      inventory-success: inventory-success
+      inventory-fail: inventory-fail
+    consumer:
+      group-id: payment-group
+      auto-offset-reset: latest
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -26,8 +25,8 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  logging:
-    level:
-      org:
-        apache:
-          kafka: OFF
+logging:
+  level:
+    org:
+      apache:
+        kafka: OFF
