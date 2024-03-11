@@ -17,7 +17,7 @@ public enum ETopics {
     PAYMENT_FAIL("payment-fail"),
     INVENTORY_SUCCESS("inventory-success"),
     INVENTORY_FAIL("inventory-fail"),
-    NOTIFY_ENDING("notify-endind");
+    NOTIFY_ENDING("notify-ending");
 
     private String topic;
 
