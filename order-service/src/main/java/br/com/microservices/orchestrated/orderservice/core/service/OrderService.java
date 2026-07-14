@@ -30,7 +30,7 @@ public class OrderService {
                 .products(orderRequest.getProducts())
                 .createdAt(LocalDateTime.now())
                 .transactionId(
-                        String.format(TRANSACTION_ID_PATTEN + Instant.now().toEpochMilli(), UUID.randomUUID())
+                        String.format(TRANSACTION_ID_PATTEN, Instant.now().toEpochMilli(), UUID.randomUUID())
                 )
                 .build();
         orderRepository.save(order);
@@ -45,7 +45,7 @@ public class OrderService {
                 .builder()
                 .orderId(order.getId())
                 .transactionId(
-                        String.format(TRANSACTION_ID_PATTEN + Instant.now().toEpochMilli(), UUID.randomUUID())
+                        String.format(TRANSACTION_ID_PATTEN, Instant.now().toEpochMilli(), UUID.randomUUID())
                 )
                 .payload(order)
                 .createdAt(LocalDateTime.now())
