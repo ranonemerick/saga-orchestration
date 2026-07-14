@@ -7,6 +7,7 @@ import br.com.microservices.orchestrated.orderservice.core.repository.EventRepos
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class EventService {
 
     public Event findByFilters(EventFilters eventFilters) {
         validateEmptyFilters(eventFilters);
-        if(!isEmpty(eventFilters.getOrderId())) {
+        if (StringUtils.hasText(eventFilters.getOrderId())) {
             return findByOrderId(eventFilters.getOrderId());
         } else {
             return findByTransactionId(eventFilters.getTransactionId());
