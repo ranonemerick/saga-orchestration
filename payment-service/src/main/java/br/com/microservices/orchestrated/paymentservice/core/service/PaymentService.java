@@ -24,8 +24,8 @@ import static br.com.microservices.orchestrated.paymentservice.core.enums.ESagaS
 public class PaymentService {
 
     private static final String CURRENT_SOURCE = "PRODUCT_VALIDATION_SERVICE";
-    private static final Double REDUCE_SUM_VALUE= 0.0;
-    private static final Double MIN_AMOUNT_VALUE= 0.1;
+    private static final Double REDUCE_SUM_VALUE = 0.0;
+    private static final Double MIN_AMOUNT_VALUE = 0.1;
 
     private final JsonUtil jsonUtil;
     private final KafkaProducer producer;
@@ -47,7 +47,7 @@ public class PaymentService {
     }
 
     private void checkCurrentValidation(Event event) {
-        if(paymentRepository.existsByOrderIdAndTransactionId(event.getPayload().getId(), event.getTransactionId())) {
+        if (paymentRepository.existsByOrderIdAndTransactionId(event.getPayload().getId(), event.getTransactionId())) {
             throw new ValidationException("There's another transactionId for this validation.");
         }
     }
@@ -90,7 +90,7 @@ public class PaymentService {
     }
 
     private void validateAmount(double amount) {
-        if(amount < 0.1) {
+        if (amount < 0.1) {
             throw new ValidationException("The minimum amount available is ".concat(MIN_AMOUNT_VALUE.toString()));
         }
     }
@@ -123,10 +123,14 @@ public class PaymentService {
     }
 
     public void realizeRefund(Event event) {
-        changePaymentStatusToRefund(event);
         event.setStatus(FAIL);
         event.setSource(CURRENT_SOURCE);
-        addHistory(event, "Rollback executed for payment!");
+        try {
+            changePaymentStatusToRefund(event);
+            addHistory(event, "Rollback executed for payment!");
+        } catch (Exception ex) {
+            addHistory(event, "Rollback not executed for payment: ".concat(ex.getMessage()));
+        }
         producer.sendEvent(jsonUtil.toJson(event));
     }
 
