@@ -1,0 +1,15 @@
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+/shelf/
+/workspace.xml
+
+# Gradle & Build
+.gradle/
+build/
+bin/
+
+# Sistema Operacional / Logs
+*.log
+.DS_Store
